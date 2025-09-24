@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginHorizontal="40dp"
+        android:text="Drawing Area"
+        android:textSize="20dp"/>
+
+    <com.example.assignment2.MyDrawingArea
+        android:id="@+id/drawing"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:layout_marginHorizontal="40dp"
+        android:layout_marginBottom="15dp"
+        android:scaleType="centerCrop"
+        android:contentDescription="recent pic"
+        android:src="@android:drawable/ic_menu_report_image" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_marginHorizontal="40dp"
+        android:layout_marginBottom="5dp"
+        android:text="Most Recent Sketches:"
+        android:textSize="20dp" />
+
+    <!-- Row of 3 ImageViews -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginHorizontal="40dp"
+        android:layout_marginBottom="16dp">
+
+
+        <ImageView
+            android:id="@+id/drawing1"
+            android:layout_width="0dp"
+            android:layout_height="100dp"
+            android:layout_weight="1"
+            android:layout_marginEnd="12dp"
+            android:scaleType="centerCrop"
+            android:contentDescription="drawing1" />
+
+        <ImageView
+            android:id="@+id/drawing2"
+            android:layout_width="0dp"
+            android:layout_height="100dp"
+            android:layout_weight="1"
+            android:layout_marginEnd="12dp"
+            android:scaleType="centerCrop"
+            android:contentDescription="drawing2"/>
+
+        <ImageView
+            android:id="@+id/drawing3"
+            android:layout_width="0dp"
+            android:layout_height="100dp"
+            android:layout_weight="1"
+            android:scaleType="centerCrop"
+            android:contentDescription="drawing3"/>
+
+    </LinearLayout>
+
+    <!-- clear button -->
+    <Button
+        android:layout_width="170dp"
+        android:layout_height="70dp"
+        android:onClick="eraseDrawing"
+        android:text="Clear"
+        android:textSize="20dp"
+        android:layout_marginTop="40dp"
+        android:layout_gravity="center"/>
+
+    <!-- save button -->
+    <Button
+        android:layout_width="170dp"
+        android:layout_height="70dp"
+        android:onClick="onClick"
+        android:text="Save"
+        android:textSize="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_gravity="center"/>
+
+
+
+
+</LinearLayout>
