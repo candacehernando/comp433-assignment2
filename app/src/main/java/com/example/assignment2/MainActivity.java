@@ -4,7 +4,9 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -37,11 +39,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
-        updateViews();
         mda = findViewById(R.id.drawing);
         sketch1IV = findViewById(R.id.drawing1);
         sketch2IV = findViewById(R.id.drawing2);
         sketch3IV = findViewById(R.id.drawing3);
+        updateViews();
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -56,14 +59,16 @@ public class MainActivity extends AppCompatActivity {
             File sketchFile = createFile();
             FileOutputStream fos = new FileOutputStream(sketchFile);
             bMap.compress(Bitmap.CompressFormat.PNG,100,fos);
-            // Toast.makeText(this, "Saved at: " + sketchFile.getAbsolutePath(), Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Saved at: " + sketchFile.getAbsolutePath(), Toast.LENGTH_LONG).show();
             numDrawn ++;
             switchBitmaps(bMap);
+            updateViews();
             fos.flush();
             fos.close();
         } catch (Exception ex) {
             ex.printStackTrace();
         }
+        eraseDrawing(mda);
     }
 
     // function to create file to store bitmap
@@ -86,6 +91,10 @@ public class MainActivity extends AppCompatActivity {
         sketch1IV.setImageBitmap(BM1);
         sketch2IV.setImageBitmap(BM2);
         sketch3IV.setImageBitmap(BM3);
+    }
+
+    public void ballDrop(View view) {
+        mda.putBallsOnPath();
     }
 
 

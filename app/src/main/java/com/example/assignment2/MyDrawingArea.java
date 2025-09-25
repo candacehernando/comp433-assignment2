@@ -4,11 +4,15 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.PathMeasure;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
 import androidx.annotation.Nullable;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MyDrawingArea extends View {
 
@@ -32,6 +36,8 @@ public class MyDrawingArea extends View {
 
     Bitmap bmp;
 
+    private List<Ball> balls = new ArrayList<>();
+
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
@@ -45,6 +51,18 @@ public class MyDrawingArea extends View {
         p.setStrokeWidth(5f);
 
         canvas.drawPath(path, p);
+
+        Paint ballPaint = new Paint();
+        ballPaint.setColor(Color.RED);
+
+        for (Ball b : balls) {
+            b.update();
+            canvas.drawCircle(b.x, b.y, b.radius, ballPaint);
+        }
+
+        if (!balls.isEmpty()) {
+            invalidate();
+        }
     }
 
 
@@ -66,6 +84,9 @@ public class MyDrawingArea extends View {
     public Bitmap getBitmap() {
         bmp = Bitmap.createBitmap(getWidth(), getHeight(), Bitmap.Config.ARGB_8888);
         Canvas c = new Canvas(bmp);
+
+        // Fill background with white
+        c.drawColor(Color.WHITE);
         Paint bitPaint = new Paint();
 
         bitPaint.setColor(Color.BLACK);
@@ -75,6 +96,28 @@ public class MyDrawingArea extends View {
 
         c.drawPath(path, bitPaint);
         return bmp;
+    }
+
+    public void putBallsOnPath() {
+        PathMeasure pm = new PathMeasure(path, false);
+
+        do {
+            float length = pm.getLength();
+            if (length > 0) {
+                float distance = 0f;
+                float step = 23f;
+                float[] pos = new float[2];
+
+                while (distance < length) {
+                    if (pm.getPosTan(distance,pos,null)) {
+                        balls.add(new Ball(pos[0],pos[1]));
+                    }
+                    distance += step;
+                }
+            }
+        } while (pm.nextContour());
+
+        invalidate();
     }
 
     public void clearDrawing() {

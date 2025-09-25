@@ -53,7 +53,8 @@
             android:layout_weight="1"
             android:layout_marginEnd="12dp"
             android:scaleType="centerCrop"
-            android:contentDescription="drawing1" />
+            android:contentDescription="drawing1"
+            android:background="@color/white"/>
 
         <ImageView
             android:id="@+id/drawing2"
@@ -62,7 +63,8 @@
             android:layout_weight="1"
             android:layout_marginEnd="12dp"
             android:scaleType="centerCrop"
-            android:contentDescription="drawing2"/>
+            android:contentDescription="drawing2"
+            android:src="@color/white"/>
 
         <ImageView
             android:id="@+id/drawing3"
@@ -70,7 +72,8 @@
             android:layout_height="100dp"
             android:layout_weight="1"
             android:scaleType="centerCrop"
-            android:contentDescription="drawing3"/>
+            android:contentDescription="drawing3"
+            android:src="@color/white"/>
 
     </LinearLayout>
 
@@ -94,7 +97,12 @@
         android:layout_marginTop="20dp"
         android:layout_gravity="center"/>
 
-
+    <Button
+        android:onClick="ballDrop"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="balls"
+        android:textSize="20dp" />
 
 
 </LinearLayout>
