@@ -1,8 +1,14 @@
 package com.example.assignment2;
 
+import android.content.Context;
 import android.graphics.Bitmap;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.Environment;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -17,8 +23,9 @@ import androidx.core.view.WindowInsetsCompat;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements SensorEventListener {
 
     private MyDrawingArea mda;
 
@@ -30,6 +37,12 @@ public class MainActivity extends AppCompatActivity {
     private Bitmap BM2 = null;
     private Bitmap BM3 = null;
 
+    private SensorManager sm;
+    private Sensor s;
+    private float accelCurrent;
+    private float accelLast;
+    private float shakeThreshold = 12f;
+
 
     private int numDrawn = 0;
 
@@ -39,11 +52,22 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
+
         mda = findViewById(R.id.drawing);
         sketch1IV = findViewById(R.id.drawing1);
         sketch2IV = findViewById(R.id.drawing2);
         sketch3IV = findViewById(R.id.drawing3);
         updateViews();
+
+        sm = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        s = sm.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        if (s == null) {
+            Log.e("sensor", "accelerometer sensor not available");
+        } else {
+            sm.registerListener(this, s, 1000000);
+        }
+        accelCurrent = SensorManager.GRAVITY_EARTH;
+        accelLast = SensorManager.GRAVITY_EARTH;
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -93,10 +117,43 @@ public class MainActivity extends AppCompatActivity {
         sketch3IV.setImageBitmap(BM3);
     }
 
-    public void ballDrop(View view) {
-        mda.putBallsOnPath();
+    @Override
+    public void onSensorChanged(SensorEvent event) {
+        if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
+            float x = event.values[0];
+            float y = event.values[1];
+            float z = event.values[2];
+
+            accelLast = accelCurrent;
+            // acceleration magnitude
+            accelCurrent = (float) Math.sqrt((x * x + y * y + z * z));
+            // change in acceleration
+            float delta = accelCurrent - accelLast;
+
+            if (delta > shakeThreshold) {
+                mda.putBallsOnPath();
+            }
+        }
     }
 
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {
+
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        sm.unregisterListener(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        sm.registerListener(this,
+                sm.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
+                1000000);
+    }
 
     public void eraseDrawing(View view) {
         mda.clearDrawing();

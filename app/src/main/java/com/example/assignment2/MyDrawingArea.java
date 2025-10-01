@@ -12,6 +12,7 @@ import android.view.View;
 import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class MyDrawingArea extends View {
@@ -38,6 +39,8 @@ public class MyDrawingArea extends View {
 
     private List<Ball> balls = new ArrayList<>();
 
+    private boolean ballsActive = false;
+
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
@@ -55,12 +58,22 @@ public class MyDrawingArea extends View {
         Paint ballPaint = new Paint();
         ballPaint.setColor(Color.RED);
 
+        boolean allStopped = true;
+
         for (Ball b : balls) {
-            b.update();
+            b.update(getHeight(), getWidth());
             canvas.drawCircle(b.x, b.y, b.radius, ballPaint);
+
+            if (!b.isStopped()) {
+                allStopped = false;
+            }
         }
 
         if (!balls.isEmpty()) {
+            if (allStopped) {
+                balls.clear();
+                ballsActive = false;
+            }
             invalidate();
         }
     }
@@ -99,13 +112,15 @@ public class MyDrawingArea extends View {
     }
 
     public void putBallsOnPath() {
+        if (ballsActive) return;
+
         PathMeasure pm = new PathMeasure(path, false);
 
         do {
             float length = pm.getLength();
             if (length > 0) {
                 float distance = 0f;
-                float step = 23f;
+                float step = 20f;
                 float[] pos = new float[2];
 
                 while (distance < length) {
@@ -117,11 +132,13 @@ public class MyDrawingArea extends View {
             }
         } while (pm.nextContour());
 
+        ballsActive = true;
         invalidate();
     }
 
     public void clearDrawing() {
         path.reset();
+        balls.clear();
         invalidate();
     }
 }

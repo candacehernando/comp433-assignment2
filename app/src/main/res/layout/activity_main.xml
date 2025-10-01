@@ -1,108 +1,152 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".MainActivity">
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:id="@+id/main"
+android:layout_width="360dp"
+android:layout_height="match_parent"
+android:orientation="vertical"
+android:layout_gravity="center"
+tools:context=".MainActivity">
 
-    <TextView
+<TextView
+    android:layout_width="match_parent"
+    android:layout_height="40dp"
+    android:layout_marginTop="20dp"
+    android:text="Drawing Area"
+    android:textSize="30dp"
+    android:layout_marginBottom="10dp"/>
+
+<FrameLayout
+    android:layout_width="match_parent"
+    android:layout_height="280dp" >
+
+    <ImageView
         android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:layout_marginTop="30dp"
-        android:layout_marginHorizontal="40dp"
-        android:text="Drawing Area"
-        android:textSize="20dp"/>
+        android:layout_height="match_parent"
+        android:background="@color/black"/>
 
     <com.example.assignment2.MyDrawingArea
         android:id="@+id/drawing"
+        android:layout_margin="3dp"
         android:layout_width="match_parent"
-        android:layout_height="250dp"
+        android:layout_height="match_parent"
         android:layout_gravity="center"
-        android:layout_marginTop="10dp"
-        android:layout_marginHorizontal="40dp"
-        android:layout_marginBottom="15dp"
         android:scaleType="centerCrop"
         android:contentDescription="recent pic"
         android:src="@android:drawable/ic_menu_report_image" />
+</FrameLayout>
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:layout_marginHorizontal="40dp"
-        android:layout_marginBottom="5dp"
-        android:text="Most Recent Sketches:"
-        android:textSize="20dp" />
+<TextView
+    android:layout_width="match_parent"
+    android:layout_height="30dp"
+    android:layout_marginTop="10dp"
+    android:layout_marginBottom="5dp"
+    android:text="Most Recent Sketches:"
+    android:textSize="20dp" />
 
-    <!-- Row of 3 ImageViews -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center"
-        android:layout_marginHorizontal="40dp"
-        android:layout_marginBottom="16dp">
+<!-- Row of 3 ImageViews -->
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:gravity="center"
+    android:layout_marginBottom="10dp">
 
+    <FrameLayout
+        android:layout_width="0dp"
+        android:layout_height="100dp"
+        android:layout_weight="1"
+        android:layout_marginEnd="10dp">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/black"
+            android:contentDescription="drawing1 border"/>
 
         <ImageView
             android:id="@+id/drawing1"
-            android:layout_width="0dp"
-            android:layout_height="100dp"
-            android:layout_weight="1"
-            android:layout_marginEnd="12dp"
+            android:layout_margin="3dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:scaleType="centerCrop"
-            android:contentDescription="drawing1"
-            android:background="@color/white"/>
+            android:layout_gravity="center"
+            android:background="@color/white"
+            android:contentDescription="drawing1"/>
+    </FrameLayout>
+
+    <FrameLayout
+        android:layout_width="0dp"
+        android:layout_height="100dp"
+        android:layout_weight="1"
+        android:layout_marginEnd="10dp">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/black"
+            android:contentDescription="drawing2 border"/>
 
         <ImageView
             android:id="@+id/drawing2"
-            android:layout_width="0dp"
-            android:layout_height="100dp"
-            android:layout_weight="1"
-            android:layout_marginEnd="12dp"
+            android:layout_margin="3dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:scaleType="centerCrop"
-            android:contentDescription="drawing2"
-            android:src="@color/white"/>
+            android:layout_gravity="center"
+            android:background="@color/white"
+            android:contentDescription="drawing2"/>
+    </FrameLayout>
+
+    <FrameLayout
+        android:layout_width="0dp"
+        android:layout_height="100dp"
+        android:layout_weight="1">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/black"
+            android:contentDescription="drawing3 border"/>
 
         <ImageView
             android:id="@+id/drawing3"
-            android:layout_width="0dp"
-            android:layout_height="100dp"
-            android:layout_weight="1"
-            android:scaleType="centerCrop"
-            android:contentDescription="drawing3"
-            android:src="@color/white"/>
+            android:layout_margin="3dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:background="@color/white"
+            android:contentDescription="drawing3"/>
+    </FrameLayout>
 
-    </LinearLayout>
+</LinearLayout>
 
-    <!-- clear button -->
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="180dp"
+    android:orientation="vertical"
+    android:layout_marginTop="10dp">
+
     <Button
         android:layout_width="170dp"
-        android:layout_height="70dp"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_gravity="center"
         android:onClick="eraseDrawing"
         android:text="Clear"
-        android:textSize="20dp"
-        android:layout_marginTop="40dp"
-        android:layout_gravity="center"/>
+        android:textSize="20dp" />
 
-    <!-- save button -->
     <Button
         android:layout_width="170dp"
-        android:layout_height="70dp"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
         android:onClick="onClick"
         android:text="Save"
-        android:textSize="20dp"
-        android:layout_marginTop="20dp"
-        android:layout_gravity="center"/>
-
-    <Button
-        android:onClick="ballDrop"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="balls"
         android:textSize="20dp" />
+</LinearLayout>
 
 
 </LinearLayout>
